@@ -40,7 +40,7 @@ function ManageCoursePage(props) {
         courseActions.saveCourse(course)
             .then(() => {
                 props.history.push("/courses");
-                toast.success("course saved");
+                toast.success(course.id ? "course updated" : "course saved");
             });
     }
 
