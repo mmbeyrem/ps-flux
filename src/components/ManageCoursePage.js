@@ -4,6 +4,7 @@ import courseStore from "../stores/courseStore";
 import * as courseActions from "../actions/courseActions"
 import { toast } from "react-toastify";
 function ManageCoursePage(props) {
+    const authors = courseStore.GetAuthors();
     const [errors, setErrors] = useState({});
     const [courses, setCourses] = useState(courseStore.GetCourses());
     const [course, setCourse] = useState({
@@ -19,10 +20,12 @@ function ManageCoursePage(props) {
         if (courses.length === 0) {
             courseActions.loadCourses();
         } else if (slug) {
-            setCourse(courseStore.GetCourseBySlug(slug));
+            let c = courseStore.GetCourseBySlug(slug);
+            c.authorName = authors.find(a => a.id === c.authorId).name;
+            setCourse(c);
         }
         return () => courseStore.removeChangeListener(onChange);
-    }, [courses.length, props.match.params.slug]);
+    }, [authors, courses.length, props.match.params.slug]);
 
     function onChange() {
         setCourses(courseStore.GetCourses());
@@ -45,7 +48,6 @@ function ManageCoursePage(props) {
     }
 
     function formIsValid() {
-        debugger;
         const tmpError = {};
         if (!course.title) tmpError.title = "Titre is required";
         if (!course.authorId) tmpError.authorId = "authorId is required";
@@ -56,7 +58,9 @@ function ManageCoursePage(props) {
 
     return <>
         <h2> Manage Course </h2>
-        <CourseForm course={course} errors={errors}
+        <CourseForm course={course}
+            errors={errors}
+            authors={authors}
             onChange={handleChange}
             onSubmit={handleSubmit}
         />

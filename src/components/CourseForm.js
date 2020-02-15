@@ -23,8 +23,8 @@ function CourseForm(props) {
                         className="form-control"
                     >
                         <option value="" />
-                        <option value="1">Cory House</option>
-                        <option value="2">Scott Allen</option>
+                        {props.authors.map(a => <option key={a.id} value={a.id}> {a.name}</option>)}
+
                     </select>
                 </div>
                 {props.errors.authorId && (

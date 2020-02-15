@@ -4,8 +4,7 @@ import * as authorApi from "../api/authorApi";
 import actionTypes from "./actionTypes";
 
 export function saveCourse(course) {
-    console.log("saveCourse");
-
+    delete course.authorName;
     return courseApi.saveCourse(course).then(savedCourse =>
 
         dispatcher.dispatch({
