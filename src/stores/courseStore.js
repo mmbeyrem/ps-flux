@@ -35,7 +35,8 @@ dispatcher.register(action => {
             store.emitChange();
             break;
         case actionTypes.loadCourse:
-            _courses = action.courses;
+            _courses = action.courses
+                .map(c => ({ ...c, authorName: action.authors.find(a => a.id === c.authorId).name }));
             store.emitChange();
             break;
         case actionTypes.deleteCourse:

@@ -9,7 +9,6 @@ function CoursesPage() {
     useEffect(() => {
         courseStore.addChangeListener(onChange);
         if (courseStore.GetCourses().length === 0) {
-            console.log("empty list ");
             loadCourses();
         }
         return () => courseStore.removeChangeListener(onChange);

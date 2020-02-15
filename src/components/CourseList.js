@@ -8,7 +8,7 @@ function CourseList(props) {
             <thead className="thead-dark">
                 <tr>
                     <th>Titre</th>
-                    <th>Author ID</th>
+                    <th>Author</th>
                     <th>Category</th>
                     <th>Delete</th>
                 </tr>
@@ -17,7 +17,7 @@ function CourseList(props) {
                 {props.courses
                     .map(c => <tr key={c.id}>
                         <td><Link to={"/course/" + c.slug} >{c.title}</Link></td>
-                        <td>{c.authorId}</td>
+                        <td value={c.authorId} >{c.authorName}</td>
                         <td>{c.category}</td>
                         <td> <button className="btn btn-danger"
                             onClick={() => props.DeleteHandler(c.id)}  > X</button> </td>
