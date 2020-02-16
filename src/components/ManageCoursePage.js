@@ -16,17 +16,23 @@ function ManageCoursePage(props) {
     })
     useEffect(() => {
         courseStore.addChangeListener(onChange);
-        const slug = props.match.params.slug; // from the path `/courses/:slug`
+        const slug = props.match.params.slug;
         if (courses.length === 0) {
             courseActions.loadCourses();
         } else if (slug) {
             let c = courseStore.GetCourseBySlug(slug);
+            if (!c) return handleNotFound(slug);
             c.authorName = authors.find(a => a.id === c.authorId).name;
             setCourse(c);
         }
         return () => courseStore.removeChangeListener(onChange);
-    }, [authors, courses.length, props.match.params.slug]);
+    }, [courses.length, props.match.params.slug]);
 
+    function handleNotFound(slug) {
+        toast.error(`${slug} not found`);
+        props.history.push("/courses");
+        toast.info(`back to courses list`);
+    }
     function onChange() {
         setCourses(courseStore.GetCourses());
     }
